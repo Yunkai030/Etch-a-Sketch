@@ -22,25 +22,31 @@ const containerDiv = document.querySelector("#container");
 
 
 function createGrid(gridNum){
-    for (let index = 0; index < gridNum*gridNum; index++) {
-        const div = document.createElement("div");
-        div.classList.add("square");
-        div.style.height = `${800/gridNum -2}px`;
-        console.log((960/gridNum -2));
-        div.style.width = `${800/gridNum -2}px`;
-        containerDiv.appendChild(div);
-        div.addEventListener("mousedown",(e)=>{
-             e.preventDefault();
-            painting = true;
-            addColorClass(div);
-        });
-         div.addEventListener("mouseover",()=>{
-            if (painting){
+    // Add the range check to ensure the performance
+    if ((gridNum <= 100) &&(gridNum > 0)){
+        for (let index = 0; index < gridNum*gridNum; index++) {
+            const div = document.createElement("div");
+            div.classList.add("square");
+            div.style.height = `${800/gridNum -2}px`;
+            
+            div.style.width = `${800/gridNum -2}px`;
+            containerDiv.appendChild(div);
+            div.addEventListener("mousedown",(e)=>{
+                e.preventDefault();
+                painting = true;
                 addColorClass(div);
-            }
-        });
-        
-        
+            });
+            div.addEventListener("mouseover",()=>{
+                if (painting){
+                    addColorClass(div);
+                }
+            });
+            
+        }
+    }
+    else{
+        alert("Over the maximum number, please choose from 0-100!");
+        createGrid(16);
     }
    
 
@@ -70,16 +76,32 @@ function pen(){
     mode = "pen";
 }
 
+const buttonRainbow = document.querySelector("#rainbow");
+buttonRainbow.addEventListener("click",rainbow);
+
+function rainbow(){
+    mode = "rainbow"
+}
+
 
 function getActiveColor() {
     if (mode==="eraser"){
         return "#FFFFFF";
     }
+      if (mode === 'rainbow') {
+        return createRainbowColor();
+  }
     else{
         return currentColor;
     }
 }
 
+function createRainbowColor(){
+    let r = Math.floor(Math.random() * 256);;
+    let g = Math.floor(Math.random() * 256);;
+    let b = Math.floor(Math.random() * 256);;
+    return `rgb(${r},${g},${b})`;
+}
 const eraserButton = document.querySelector("#eraser");
 eraserButton.addEventListener("click",eraser);
 
