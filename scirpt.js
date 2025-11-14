@@ -1,9 +1,20 @@
+let gridNum = 16;
+
 // div that is the single grid
-const div = document.createElement("div");
-div.classList.add("square")
+
 
 
 const containerDiv = document.querySelector("#container")
-containerDiv.appendChild(div);
 
+
+function createGrid(){
+    for (let index = 0; index < 256; index++) {
+        const div = document.createElement("div");
+        div.classList.add("square");
+        containerDiv.appendChild(div);
+    }
+    
+}
+
+createGrid();
 
