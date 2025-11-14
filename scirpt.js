@@ -1,7 +1,10 @@
 const gridNum = document.querySelector("#inputSize");
 let painting = false;
 let lastGridNumber = 16;
+let currentColor = "#000000";
+let mode = "pen";
 
+const colorPicker = document.querySelector("#colorPicker");
 
 const buttonClear = document.querySelector("#clear");
 buttonClear.addEventListener("click",clearGrid);
@@ -55,10 +58,38 @@ function clearGrid() {
     createGrid(lastGridNumber);
 }
 
-function addColorClass(selectClass){
-    selectClass.classList.add("colored");
+function eraser() {
+    mode = "eraser";
+    
 }
 
+const buttonPen = document.querySelector("#pen");
+buttonPen.addEventListener("click",pen);
+
+function pen(){
+    mode = "pen";
+}
+
+
+function getActiveColor() {
+    if (mode==="eraser"){
+        return "#FFFFFF";
+    }
+    else{
+        return currentColor;
+    }
+}
+
+const eraserButton = document.querySelector("#eraser");
+eraserButton.addEventListener("click",eraser);
+
+function addColorClass(selectClass){
+    selectClass.style.backgroundColor = getActiveColor();
+}
+
+colorPicker.addEventListener("input", function() {
+    currentColor = this.value; // new color
+});
 
 createGrid(16);
 
